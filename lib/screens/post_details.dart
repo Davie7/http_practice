@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:http_practice/services/http.dart';
+import 'package:http_practice/utils/dialog.dart';
 
 import 'edit_posts.dart';
 
@@ -41,7 +42,15 @@ class PostDetails extends StatelessWidget {
             },
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () async{
+              bool deleted = await HTTPHelper().deleteItem(itemId);
+
+              if(deleted){
+                showSnackBar('Deleted post', context);
+              }else{
+                showSnackBar('Failed to delete post', context);
+              }
+            },
             icon: const Icon(Icons.delete),
           ),
         ],

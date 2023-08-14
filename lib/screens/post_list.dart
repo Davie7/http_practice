@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_practice/screens/add_post.dart';
 import 'package:http_practice/services/http.dart';
 
 import '../utils/dialog.dart';
@@ -17,6 +18,15 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Posts'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddPost(),),);
+        },
+        child: Icon(Icons.add),
+      ),
       body: FutureBuilder(
         future: _futurePosts,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -53,10 +63,7 @@ class _PostListState extends State<PostList> {
             );
           }
           if (snapshot.hasError) {
-            showSnackbar(
-              context,
-              snapshot.error.toString(),
-            );
+            showSnackBar(snapshot.error.toString(), context);
           }
 
           return const Center(

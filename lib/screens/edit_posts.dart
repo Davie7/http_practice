@@ -25,10 +25,6 @@ class _EditPostState extends State<EditPost> {
     _bodyController = TextEditingController(text: widget.post['body']);
   }
 
-  void _handleSnackbar(String message) {
-    showSnackbar(context, message);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +55,9 @@ class _EditPostState extends State<EditPost> {
                   );
 
                   if (status) {
-                    _handleSnackbar('Post updated');
+                    showSnackBar('Updated post successfully', context);
                   } else {
-                    _handleSnackbar('Failed to update');
+                    showSnackBar('Failed to update', context);
                   }
                 },
                 child: const Text('Submit'),

@@ -50,7 +50,7 @@ class HTTPHelper {
       body: jsonEncode(data),
       headers: {'Content-type': 'application/json'},
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       status = response.body.isNotEmpty;
     }
     return status;
