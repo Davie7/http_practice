@@ -12,7 +12,7 @@ class PostList extends StatefulWidget {
 }
 
 class _PostListState extends State<PostList> {
-  Future<List<Map>> _futurePosts = HTTPHelper().fetchItems();
+  final Future<List<Map>> _futurePosts = HTTPHelper().fetchItems();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,16 @@ class _PostListState extends State<PostList> {
               itemBuilder: (BuildContext context, int index) {
                 Map item = posts[index];
                 return ListTile(
-                  title: item['title'],
-                  subtitle: item['body'],
+                  title: Text(
+                    item['title'],
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    item['body'],
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -51,7 +59,7 @@ class _PostListState extends State<PostList> {
             );
           }
 
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },

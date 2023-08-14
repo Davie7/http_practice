@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:http_practice/services/http.dart';
+import 'package:http_practice/utils/dialog.dart';
 
 class EditPost extends StatefulWidget {
   final Map post;
@@ -13,17 +15,61 @@ class EditPost extends StatefulWidget {
 }
 
 class _EditPostState extends State<EditPost> {
-
   TextEditingController _titleController = TextEditingController();
   TextEditingController _bodyController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _titleController = TextEditingController(text: widget.post['title']);
+    _bodyController = TextEditingController(text: widget.post['body']);
+  }
+
+  void _handleSnackbar(String message) {
+    showSnackbar(context, message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit post'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Form(
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _titleController,
+              ),
+              TextFormField(
+                controller: _bodyController,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  Map<String, String> dataToUpdate = {
+                    'title': _titleController.text,
+                    'body': _bodyController.text,
+                  };
+
+                  bool status = await HTTPHelper().updateItem(
+                    dataToUpdate,
+                    widget.post['id'].toString(),
+                  );
+
+                  if (status) {
+                    _handleSnackbar('Post updated');
+                  } else {
+                    _handleSnackbar('Failed to update');
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

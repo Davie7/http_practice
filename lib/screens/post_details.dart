@@ -18,22 +18,31 @@ class PostDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details'),
+        title: const Text('Details'),
         actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => EditPost(post: ,),
-              //   ),
-              // );
+          FutureBuilder(
+            future: futurePost,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                Map post = snapshot.data;
+                return IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditPost(post: post),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.edit),
+                );
+              }
+              return Container();
             },
-            icon: Icon(Icons.edit),
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
           ),
         ],
       ),
@@ -49,14 +58,21 @@ class PostDetails extends StatelessWidget {
             Map post = snapshot.data;
             return Column(
               children: [
-                Text('${post['title']}'),
+                Text(
+                  '${post['title']}',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 Text('${post['body']}'),
               ],
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
   }
 }
+
